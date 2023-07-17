@@ -20,6 +20,11 @@ export default function App() {
     setModalIsVisible(true);
   };
 
+  // 모달 끄기 함수
+  const endAddGoalHandler = () => {
+    setModalIsVisible(false);
+  };
+
   // 버튼을 누르면 할 일 목록을 추가하는 함수
   const addGoalHandler = (enteredGoalText) => {
     // console.log(enteredGoalText);
@@ -30,6 +35,7 @@ export default function App() {
       ...currentTodoGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+    endAddGoalHandler();
   };
 
   const deleteGoalHandler = (id) => {
@@ -46,7 +52,11 @@ export default function App() {
         color='#5e0acc'
         onPress={startAddGoalHandler}
       />
-      {modalIsVisible && <GoalInput onAddGoal={addGoalHandler} />}
+      <GoalInput
+        visible={modalIsVisible}
+        onAddGoal={addGoalHandler}
+        onCancle={endAddGoalHandler}
+      />
       <View style={styles.goalsContainer}>
         {/* alwaysBounceVertical = true : 스크롤할 항목이 없을때도 스크롤이 되는 것처럼 보임 (iOS 기본값) */}
         {/* ScrollView는 전체 화면이 렌더링 될 때 안의 항목들을 전부 렌더링합니다. 
