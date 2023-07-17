@@ -12,7 +12,13 @@ import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export default function App() {
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [todoGoals, setTodoGoals] = useState([]);
+
+  // 할 일 추가 모달을 띄워주는 함수
+  const startAddGoalHandler = () => {
+    setModalIsVisible(true);
+  };
 
   // 버튼을 누르면 할 일 목록을 추가하는 함수
   const addGoalHandler = (enteredGoalText) => {
@@ -35,7 +41,12 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title='할 일 추가하기!'
+        color='#5e0acc'
+        onPress={startAddGoalHandler}
+      />
+      {modalIsVisible && <GoalInput onAddGoal={addGoalHandler} />}
       <View style={styles.goalsContainer}>
         {/* alwaysBounceVertical = true : 스크롤할 항목이 없을때도 스크롤이 되는 것처럼 보임 (iOS 기본값) */}
         {/* ScrollView는 전체 화면이 렌더링 될 때 안의 항목들을 전부 렌더링합니다. 
@@ -49,6 +60,7 @@ export default function App() {
             return (
               <GoalItem
                 text={itemData.item.text}
+                id={itemData.item.id}
                 onDeleteItem={deleteGoalHandler}
               />
             );
